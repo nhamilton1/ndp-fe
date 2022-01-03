@@ -23,10 +23,6 @@ const NormalDistribution = () => {
     return <Skeleton paragraph={{ rows: 10 }} />
   }
 
-  (async() => {
-    while(!poolBlockCounterPerDay)
-        await new Promise(resolve => setTimeout(resolve, 1000));
-  })();
 
   const dataPoints = Object.values(poolBlockCounterPerDay).sort((a, b) => a - b)
 
@@ -43,6 +39,9 @@ const NormalDistribution = () => {
 
   return (
     <Layout>
+      {
+        !poolBlockCounterPerDay ? <Skeleton /> :
+        <>
       <Typography.Title style={{ fontSize: '1.5rem' }}>Normal Distribution for {poolName.replace('+', ' ')}</Typography.Title>
       <ResponsiveContainer width="100%" height={250}>
         <AreaChart data={newDataSet} >
@@ -64,6 +63,8 @@ const NormalDistribution = () => {
         </AreaChart>
       </ResponsiveContainer>
       < PoolSelector poolName={poolName} setPoolName={setPoolName} />
+      </>
+      }
     </Layout>
   )
 }
