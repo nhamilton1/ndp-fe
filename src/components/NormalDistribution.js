@@ -22,7 +22,12 @@ const NormalDistribution = () => {
   if (isLoading) {
     return <Skeleton paragraph={{ rows: 10 }} />
   }
-  
+
+  (async() => {
+    while(!poolBlockCounterPerDay)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+  })();
+
   const dataPoints = Object.values(poolBlockCounterPerDay).sort((a, b) => a - b)
 
   const lowerBound = Math.min(...dataPoints), upperBound = Math.max(...dataPoints);
